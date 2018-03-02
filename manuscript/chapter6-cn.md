@@ -12,8 +12,8 @@
 
 函数式无状态组件形式的 Table 组件：
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 const Table = ({
   list,
   sortKey,
@@ -30,13 +30,12 @@ const Table = ({
     ...
   );
 }
-~~~~~~~~
+```
 
 ES6 类形式的 Table 组件：
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
-# leanpub-start-insert
+```javascript
+// src/App.js
 class Table extends Component {
   render() {
     const {
@@ -57,63 +56,56 @@ class Table extends Component {
     );
   }
 }
-# leanpub-end-insert
-~~~~~~~~
+```
 
 由于想要在 Table 组件中管理状态，你需要添加构造函数和初始状态。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 class Table extends Component {
-# leanpub-start-insert
   constructor(props) {
     super(props);
 
     this.state = {};
   }
-# leanpub-end-insert
 
   render() {
     ...
   }
 }
-~~~~~~~~
+```
 
 现在你可以将状态和有关排序的方法从 App 组件向下移动到 Table 组件中。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 class Table extends Component {
   constructor(props) {
     super(props);
 
-# leanpub-start-insert
     this.state = {
       sortKey: 'NONE',
       isSortReverse: false,
     };
 
     this.onSort = this.onSort.bind(this);
-# leanpub-end-insert
   }
 
-# leanpub-start-insert
   onSort(sortKey) {
     const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
     this.setState({ sortKey, isSortReverse });
   }
-# leanpub-end-insert
 
   render() {
     ...
   }
 }
-~~~~~~~~
+```
 
 别忘了将挪走的状态和  `onSort()` 方法从 App 组件中移除。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 class App extends Component {
 
   constructor(props) {
@@ -138,18 +130,17 @@ class App extends Component {
   ...
 
 }
-~~~~~~~~
+```
 
 除此之外，你还可以让 Table 组件更加轻量。你还可以去掉从 App 组件传入的属性，因为现在这些属性可以由 Table 组件的内部状态控制。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 class App extends Component {
 
   ...
 
   render() {
-# leanpub-start-insert
     const {
       searchTerm,
       results,
@@ -157,36 +148,32 @@ class App extends Component {
       error,
       isLoading
     } = this.state;
-# leanpub-end-insert
 
     ...
 
     return (
       <div className="page">
         ...
-# leanpub-start-insert
         <Table
           list={list}
           onDismiss={this.onDismiss}
         />
-# leanpub-end-insert
         ...
       </div>
     );
   }
 }
-~~~~~~~~
+```
 
 现在你就可以使用 Table 组件内的 `onSort()` 方法和状态了。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 class Table extends Component {
 
   ...
 
   render() {
-# leanpub-start-insert
     const {
       list,
       onDismiss
@@ -196,7 +183,6 @@ class Table extends Component {
       sortKey,
       isSortReverse,
     } = this.state;
-# leanpub-end-insert
 
     const sortedList = SORTS[sortKey](list);
     const reverseSortedList = isSortReverse
@@ -209,9 +195,7 @@ class Table extends Component {
           <span style={{ width: '40%' }}>
             <Sort
               sortKey={'TITLE'}
-# leanpub-start-insert
               onSort={this.onSort}
-# leanpub-end-insert
               activeSortKey={sortKey}
             >
               Title
@@ -220,9 +204,7 @@ class Table extends Component {
           <span style={{ width: '30%' }}>
             <Sort
               sortKey={'AUTHOR'}
-# leanpub-start-insert
               onSort={this.onSort}
-# leanpub-end-insert
               activeSortKey={sortKey}
             >
               Author
@@ -231,9 +213,7 @@ class Table extends Component {
           <span style={{ width: '10%' }}>
             <Sort
               sortKey={'COMMENTS'}
-# leanpub-start-insert
               onSort={this.onSort}
-# leanpub-end-insert
               activeSortKey={sortKey}
             >
               Comments
@@ -242,9 +222,7 @@ class Table extends Component {
           <span style={{ width: '10%' }}>
             <Sort
               sortKey={'POINTS'}
-# leanpub-start-insert
               onSort={this.onSort}
-# leanpub-end-insert
               activeSortKey={sortKey}
             >
               Points
@@ -261,7 +239,7 @@ class Table extends Component {
     );
   }
 }
-~~~~~~~~
+```
 
 应用应该还是可以像之前一样正常运行，但是你已经做了非常重要的重构工作。相关的逻辑代码和状态信息从 App 组件移动到了 Table 组件中，这使得 App 组件更加轻量。此外因为 Table 的排序逻辑放在了组件内部，所以它的接口也更加轻量了。
 
@@ -276,50 +254,50 @@ class Table extends Component {
 
 至此，你已经使用过 React 的  `setState()` 方法来管理组件的内部状态。你可以给该函数传入一个对象来改变部分的内部状态。
 
-{title="Code Playground",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground
 this.setState({ foo: bar });
-~~~~~~~~
+```
 
 但是 `setState()` 方法不仅可以接收对象。在它的第二种形式中，你还可以传入一个函数来更新状态信息。
 
-{title="Code Playground",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground
 this.setState((prevState, props) => {
   ...
 });
-~~~~~~~~
+```
 
 为什么你会需要第二种形式呢？使用函数作为参数而不是对象，有一个非常重要的应用场景，就是当更新状态需要取决于之前的状态或者属性的时候。如果不使用函数参数的形式，组件的内部状态管理可能会引起 bug。
 
 当更新状态需要取决于之前的状态或者属性时，为什么使用对象而不是函数会引起 bug 呢？这是因为 React 的 `setState()` 方法是异步的。React 依次执行 `setState()` 方法，最终会全部执行完毕。如果你的 `setState()` 方法依赖于之前的状态或者属性的话，有可能在按批次执行的期间，状态或者属性的值就已经被改变了。
 
-{title="Code Playground",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground
 const { fooCount } = this.state;
 const { barCount } = this.props;
 this.setState({ count: fooCount + barCount });
-~~~~~~~~
+```
 
 想象一下像 `fooCount` 和 `barCount` 这样的状态或属性，在你调用  `setState()` 方法的时候在其他地方被异步地改变了。在不断膨胀的应用中，你会有多个  `setState()` 调用。因为 `setState()` 是异步执行的，你可能像上面的例子一样，依赖了一个已经过期的值。
 
 使用函数参数形式的话，传入 `setState()` 方法的参数是一个回调，该回调会在被执行时传入状态和属性。尽管 `setState()` 方法是异步的，但是通过回调函数，它使用的是执行那一刻的状态和属性。
 
-{title="Code Playground",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground
 this.setState((prevState, props) => {
   const { fooCount } = prevState;
   const { barCount } = props;
   return { count: fooCount + barCount };
 });
-~~~~~~~~
+```
 
 现在让我们回到代码中来修复这个问题。我们会一起修复一个 `setState()` 依赖于状态和属性的地方，之后你就可以按照同样的方式修复代码中的其他地方。
 
  `setSearchTopStories()` 方法依赖于之前的状态，因此它是个使用函数而不是对象作为 `setState()` 参数的绝佳例子。目前的代码片段如下。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 setSearchTopStories(result) {
   const { hits, page } = result;
   const { searchKey, results } = this.state;
@@ -341,32 +319,29 @@ setSearchTopStories(result) {
     isLoading: false
   });
 }
-~~~~~~~~
+```
 
 你从 state 变量中提取了一些值，但是更新状态时异步地依赖于之前的状态。现在你可以使用函数参数的形式来防止脏状态信息造成的 bug。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 setSearchTopStories(result) {
   const { hits, page } = result;
 
-# leanpub-start-insert
   this.setState(prevState => {
     ...
   });
-# leanpub-end-insert
 }
-~~~~~~~~
+```
 
 你可以将已经实现的逻辑移动到函数内部，只需将在 `this.state` 上的操作改为 `prevState` 。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 setSearchTopStories(result) {
   const { hits, page } = result;
 
   this.setState(prevState => {
-# leanpub-start-insert
     const { searchKey, results } = prevState;
 
     const oldHits = results && results[searchKey]
@@ -385,26 +360,24 @@ setSearchTopStories(result) {
       },
       isLoading: false
     };
-# leanpub-end-insert
   });
 }
-~~~~~~~~
+```
 
 如此可以修复脏状态所导致的问题。还有一个可以改进的地方，由于它是一个函数，你可以将该函数提取出来从而改善代码的可读性。这是使用函数参数形式相对于对象形式的另一个好处，该函数可以独立于组件。但是你需要使用一个高阶函数并将 `result` 传给它。毕竟，你是想根据 API 的获取结果来更新状态。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 setSearchTopStories(result) {
   const { hits, page } = result;
   this.setState(updateSearchTopStoriesState(hits, page));
 }
-~~~~~~~~
+```
 
 `updateSearchTopStoriesState()` 是一个高阶函数，因为它返回一个函数。你可以在 App 组件之外定义这个高阶函数。请注意现在函数的签名有了一些变化。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
-# leanpub-start-insert
+```javascript
+// src/App.js
 const updateSearchTopStoriesState = (hits, page) => (prevState) => {
   const { searchKey, results } = prevState;
 
@@ -425,12 +398,11 @@ const updateSearchTopStoriesState = (hits, page) => (prevState) => {
     isLoading: false
   };
 };
-# leanpub-end-insert
 
 class App extends Component {
   ...
 }
-~~~~~~~~
+```
 
 搞定！`setState()` 中函数参数形式相比于对象参数来说，在预防潜在 bug 的同时，还可以提高代码的可读性和可维护性。此外，它可以在 App 组件之外进行测试。你可以将其导出并写个测试来当作练习。
 
@@ -458,7 +430,6 @@ Redux 和 MobX 超出了本书的讨论范围。当读读完本书的时候，�
 * 阅读更多关于 [外部状态管理以及如何学习](https://www.robinwieruch.de/redux-mobx-confusion/) 的内容
 * 看看我的第二本电子书关于 [React 中的状态管理](https://roadtoreact.com/)
 
-{pagebreak}
 
 
 你已经学习了 React 的高级状态管理！让我们回顾一下前面几章的内容。

@@ -7,7 +7,6 @@
 
 您将会学习构建您自己的 React 应用。这个应用会涉及一些真正可用的功能，比如分页，客户端缓存，以及像搜索和排序这样的交互功能。另外在这个过程中，您会慢慢从 JavaScript ES5 过渡到 JavaScript ES6。我希望这本书能充分体现我对 React 和 JavaScript 的热忱所在，并帮助您能够开始您的开发旅程。
 
-{pagebreak}
 
 
 # 读者赠言
@@ -42,7 +41,6 @@
 
 **[Thomas Lockney](https://www.goodreads.com/review/show/1880673388):** “这是一本非常扎实的介绍React的书，而不是试着把事情搞复杂。我本来只想尝试理解看看这本书到底讲了什么，然后我得出了上面的结论。我并没有跟着所有的脚注来学习我还没有注意到的新的ES6语法（我当然不会说我一直没有注意到，Bob）（译者注：这个是在博客中与另外一个朋友互动的话）。对于那些没有及时了解到这些新功能，并且很勤奋的跟着练习的朋友们，我想很肯定地对你们说，你们能学到的会不仅仅是这本书所教的东西。”
 
-{pagebreak}
 
 
 # 儿童教育
@@ -53,7 +51,6 @@
 
 * 2017/4/11 - 2017/04/18，[学习React的回馈](https://www.robinwieruch.de/giving-back-by-learning-react/) 
 
-{pagebreak}
 
 # 问题解答
 
@@ -87,7 +84,6 @@
 
 **写这本书的有什么特别的出发点吗？** 是的。我想让你花点时间想一想谁比较适合学习React。这个人可能已经表现出一些兴趣，可能已经学习过一段时间，或者有可能并没有发现自己其实可以学习React。你可以找到他们然后把这本书分享给他。这对我真的非常重要，这本书就旨与他人分享。
 
-{pagebreak}
 
 # 更新日志
 
@@ -132,7 +128,6 @@
 * 190+ pages of learning material
 * [+9 Source Code Projects](https://roadtoreact.com/course-details?courseId=THE_ROAD_TO_LEARN_REACT)
 
-{pagebreak}
 
 # 怎么读这本书？
 
@@ -174,4 +169,3 @@
 * 认同和巩固你的所学
 * 将你的应用部署到产品环境
 
-{pagebreak}

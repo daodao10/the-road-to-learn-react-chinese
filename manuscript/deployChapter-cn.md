@@ -27,23 +27,23 @@
 
 如果你的Mac上已经安装了Homebrew，你可以用终端安装Heroku命令行：
 
-{title="Command Line",lang="text"}
-~~~~~~~~
+```bash
+# Command Line
 brew update
 brew install heroku-toolbelt
-~~~~~~~~
+```
 
 现在你可以使用git和Heroku命令行来部署你的应用了
 
-{title="Command Line",lang="text"}
-~~~~~~~~
+```bash
+# Command Line
 git init
 heroku create -b https://github.com/mars/create-react-app-buildpack.git
 git add .
 git commit -m "react-create-app on Heroku"
 git push heroku master
 heroku open
-~~~~~~~~
+```
 
 搞定。我希望你的应用在线上运行一切正常。如果你遇到什么问题，这里有一些资源可以参考。
 

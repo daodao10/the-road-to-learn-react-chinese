@@ -1,4 +1,4 @@
-## 代码组织和测试
+# 代码组织和测试
 
 本章将专注在几个重要话题来保证在一个规模增长的应用中代码的可维护性。你将了解如何去组织代码，以便在构建你的工程目录和文件时时遵循最佳实践。本章你将学会的另外一个话题是测试，这对你的代码健壮性非常重要。本章也会结合之前的练习项目来为你介绍这几个话题。
 
@@ -18,43 +18,43 @@
 
 你可以导出一个或者多个变量。这称为一个命名的导出。
 
-{title="Code Playground: file1.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: file1.js
 const firstname = 'robin';
 const lastname = 'wieruch';
 
 export { firstname, lastname };
-~~~~~~~~
+```
 
 并在另外一个文件用相对第一文件的相对路径导入。
 
-{title="Code Playground: file2.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: file2.js
 import { firstname, lastname } from './file1.js';
 
 console.log(firstname);
 // output: robin
-~~~~~~~~
+```
 
 你也可以用对象的方式导入另外文件的全部变量。
 
-{title="Code Playground: file2.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: file2.js
 import * as person from './file1.js';
 
 console.log(person.firstname);
 // output: robin
-~~~~~~~~
+```
 
 导入可以有一个别名。可能发生在在输入多个文件中有相同命名的导出的时候。这就是为什么你可以使用别名。
 
-{title="Code Playground: file2.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: file2.js
 import { firstname as foo } from './file1.js';
 
 console.log(foo);
 // output: robin
-~~~~~~~~
+```
 
 最后但也很重要的是，还存在一种 `default` 语句。可以被用在一些使用情况下：
 
@@ -62,30 +62,30 @@ console.log(foo);
 * 为了强调一个模块输出 API 中的主要功能
 * 这样可以向后兼容ES5只有一个导出物的功能
 
-{title="Code Playground: file1.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: file1.js
 const robin = {
   firstname: 'robin',
   lastname: 'wieruch',
 };
 
 export default robin;
-~~~~~~~~
+```
 
 你可以在导入 default 输出时省略花括号。
 
-{title="Code Playground: file2.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: file2.js
 import developer from './file1.js';
 
 console.log(developer);
 // output: { firstname: 'robin', lastname: 'wieruch' }
-~~~~~~~~
+```
 
 此外，输入的名称可以与导入的 default 名称不一样，你也可以将其与命名的导出和导入语句使用同一个名称。
 
-{title="Code Playground: file1.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: file1.js
 const firstname = 'robin';
 const lastname = 'wieruch';
 
@@ -100,25 +100,25 @@ export {
 };
 
 export default person;
-~~~~~~~~
+```
 
-{title="Code Playground: file2.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: file2.js
 import developer, { firstname, lastname } from './file1.js';
 
 console.log(developer);
 // output: { firstname: 'robin', lastname: 'wieruch' }
 console.log(firstname, lastname);
 // output: robin wieruch
-~~~~~~~~
+```
 
 在命名的导出中，你可以省略多余行直接导出变量。
 
-{title="Code Playground: file1.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: file1.js
 export const firstname = 'robin';
 export const lastname = 'wieruch';
-~~~~~~~~
+```
 
 这些是 ES6 模块的主要功能。它们能帮助你组织你的代码，维护你的代码，设计可重用的模块 API。你也可以为了测试导入和导出功能。你将会在接下来的章节中做到这一点。
 
@@ -135,8 +135,8 @@ export const lastname = 'wieruch';
 
 一种可能的模块结构类似：
 
-{title="Folder Structure",lang="text"}
-~~~~~~~~
+```text
+# Folder Structure
 src/
   index.js
   index.css
@@ -152,12 +152,12 @@ src/
   Search.js
   Search.test.js
   Search.css
-~~~~~~~~
+```
 
 这里将组件封装到各自文件中，但是这看起来不是很好。你可以看到非常多的命名冗余，并且只有文件的扩展文字不同。另外一种模块的结构大概类似：
 
-{title="Folder Structure",lang="text"}
-~~~~~~~~
+```text
+# Folder Structure
 src/
   index.js
   index.css
@@ -177,22 +177,20 @@ src/
     index.js
     test.js
     index.css
-~~~~~~~~
+```
 
 这看起来比之前清晰多了。文件名中的 index 名称表示他是这个文件夹的入口文件。这仅仅是一个命名共识，你也可以使用你习惯的命名。在这个模块结构中，一个组件被 JavaScript 文件中组件声明，样式文件，测试共同定义。
 
 另外一个步骤可能要将 App 组件中的变量抽出。这些变量用来组合出 Hacker News 的 API URL。
 
-{title="Folder Structure",lang="text"}
-~~~~~~~~
+```text
+# Folder Structure
 src/
   index.js
   index.css
-# leanpub-start-insert
   constants/
     index.js
   components/
-# leanpub-end-insert
     App/
       index.js
       test.js
@@ -202,12 +200,12 @@ src/
       test.js
       index..css
     ...
-~~~~~~~~
+```
 
 自然这些模块会分割到 *src/constants/* 和 *src/components/* 中去。现在 *src/constants/index.js* 文件可能看起来类似下面这样：
 
-{title="Code Playground: src/constants/index.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: src/constants/index.js
 export const DEFAULT_QUERY = 'redux';
 export const DEFAULT_HPP = '100';
 export const PATH_BASE = 'https://hn.algolia.com/api/v1';
@@ -215,12 +213,12 @@ export const PATH_SEARCH = '/search';
 export const PARAM_SEARCH = 'query=';
 export const PARAM_PAGE = 'page=';
 export const PARAM_HPP = 'hitsPerPage=';
-~~~~~~~~
+```
 
 *App/index.js* 文件可以导入这些变量，以便使用。
 
-{title="Code Playground: src/components/App/index.js",lang=javascript}
-~~~~~~~~
+```javascript
+// Code Playground: src/components/App/index.js
 import {
   DEFAULT_QUERY,
   DEFAULT_HPP,
@@ -232,12 +230,12 @@ import {
 } from '../constants/index.js';
 
 ...
-~~~~~~~~
+```
 
 当你使用 *index.js* 这个命名共识的时候，你可以在相对路径中省略文件名。
 
-{title="Code Playground: src/components/App/index.js",lang=javascript}
-~~~~~~~~
+```javascript
+// Code Playground: src/components/App/index.js
 import {
   DEFAULT_QUERY,
   DEFAULT_HPP,
@@ -246,17 +244,15 @@ import {
   PARAM_SEARCH,
   PARAM_PAGE,
   PARAM_HPP,
-# leanpub-start-insert
 } from '../constants';
-# leanpub-end-insert
 
 ...
-~~~~~~~~
+```
 
 但是 *index.js* 文件名称后面发生了什么？这个约定是在 node.js 世界里面被引入的。index 文件是一个模块的入口。它描述了一个模块的公共 API。外部模块只允许通过 *index.js* 文件导入模块中的共享代码。考虑用下面虚构的模块结构进行演示：
 
-{title="Folder Structure",lang="text"}
-~~~~~~~~
+```text
+# Folder Structure
 src/
   index.js
   App/
@@ -266,12 +262,12 @@ src/
     SubmitButton.js
     SaveButton.js
     CancelButton.js
-~~~~~~~~
+```
 
 这个 *Buttons/* 文件夹有多个按钮组件定义在了不同的文件中。每个文件都 `export default` 特定的组件，使组件能够被 *Buttons/index.js* 导入。*Buttons/index.js* 文件导入所有不同的表现的按钮，并将他们导出作为模块的公共 API。
 
-{title="Code Playground: src/Buttons/index.js",lang="javascript"}
-~~~~~~~~
+```javascript
+// Code Playground: src/Buttons/index.js
 import SubmitButton from './SubmitButton';
 import SaveButton from './SaveButton';
 import CancelButton from './CancelButton';
@@ -281,27 +277,27 @@ export {
   SaveButton,
   CancelButton,
 };
-~~~~~~~~
+```
 
 现在 *src/App/index.js* 可以通过定位在 *index.js* 文件模块的公共 API 导入这些按钮。
 
-{title="Code Playground: src/App/index.js",lang=javascript}
-~~~~~~~~
+```javascript
+// Code Playground: src/App/index.js
 import {
   SubmitButton,
   SaveButton,
   CancelButton
 } from '../Buttons';
-~~~~~~~~
+```
 
 在这些约束下，通过其他文件导入而不是通过 *index.js* 模块的话会是糟糕的实践。这会破坏封装的原则。
 
-{title="Code Playground: src/App/index.js",lang=javascript}
-~~~~~~~~
+```javascript
+// Code Playground: src/App/index.js
 // 糟糕的实践，不要这样做
 
 import SubmitButton from '../Buttons/SubmitButton';
-~~~~~~~~
+```
 
 现在你知道如何在模块与封装约束下重构你的代码。如我所说，为了保持本书的简洁，我不会这么做。但是你应该在读完这本书后做些重构。
 
@@ -323,8 +319,8 @@ import SubmitButton from '../Buttons/SubmitButton';
 
 我们开始测试第一个组件吧。在此之前，你必须先将需要测试的组件从 *src/App.js* 导出。之后，你可以在不同的单个文件里去测试，相信你已经在代码组织章节学会了怎么去做。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 ...
 
 class App extends Component {
@@ -335,19 +331,17 @@ class App extends Component {
 
 export default App;
 
-# leanpub-start-insert
 export {
   Button,
   Search,
   Table,
 };
-# leanpub-end-insert
-~~~~~~~~
+```
 
 在 *App.test.js* 文件中，你可以看到 *create-react-app* 创建的第一个测试。它验证了 App 组件在渲染的时候没有任何错误发生。
 
-{title="src/App.test.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.test.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -356,16 +350,16 @@ it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<App />, div);
 });
-~~~~~~~~
+```
 
 “it” 块描述了一个测试用例。它需要带有一段测试的描述，这个测试块可以成功或者失败。或者你可以将它包裹在一个 “describe” 块中来定义一个测试套件。一个测试套件可能包含一系列关于特定组件的 “it” 块。在后面你会看到 “describe” 块的。这两种块都是用来区分和组织你的测试用例的。
 
 你可以使用 *create-react-app* 提供的命令行测试脚本来运行测试用例。
 
-{title="Command Line",lang="text"}
-~~~~~~~~
+```bash
+# Command Line
 npm test
-~~~~~~~~
+```
 
 **注意**：如果当你第一次运行 App 组件测试的时候碰到了错误，可能是因为是在组件的 `componentDitMount()` 方法中触发的 `fetchSearchTopStories()` 中使用的 fetch 不被支持的原因。你可以通过下面两部解决：
 
@@ -378,40 +372,34 @@ Jest 将快照保存在一个文件夹中。只有这样它才可以和未来的
 
 当你写快照之前，可能需要安装一个工具库。
 
-{title="Command Line",lang="text"}
-~~~~~~~~
+```bash
+# Command Line
 npm install --save-dev react-test-renderer
-~~~~~~~~
+```
 
 现在你可以用第一份快照测试来扩展 App 组件测试了。第一步，从 node 包中引入新功能，并将之前测试 App 组件的 “it” 块包裹在一个描述性的 “describe” 块中。这个测试套件仅用来测试 App 组件。
 
-{title="src/App.test.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.test.js
 import React from 'react';
 import ReactDOM from 'react-dom';
-# leanpub-start-insert
 import renderer from 'react-test-renderer';
-# leanpub-end-insert
 import App from './App';
 
-# leanpub-start-insert
 describe('App', () => {
-# leanpub-end-insert
 
   it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<App />, div);
   });
 
-# leanpub-start-insert
 });
-# leanpub-end-insert
-~~~~~~~~
+```
 
 现在你可以使用 “test” 块来实现第一个快照测试了。
 
-{title="src/App.test.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.test.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
@@ -424,7 +412,6 @@ describe('App', () => {
     ReactDOM.render(<App />, div);
   });
 
-# leanpub-start-insert
   test('has a valid snapshot', () => {
     const component = renderer.create(
       <App />
@@ -432,10 +419,9 @@ describe('App', () => {
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
-# leanpub-end-insert
 
 });
-~~~~~~~~
+```
 
 重新运行你的测试，看测试是成功还是失败。按理它们应该能成功。一旦你改变了 App 组件中的 render 块的输出，这个测试应该会失败。然后你可以决定是否需要更新快照，或去调查 App 组件。
 
@@ -443,18 +429,15 @@ describe('App', () => {
 
 我们来给我们的组件添加更多的测试，第一步，Search 组件：
 
-{title="src/App.test.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.test.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-# leanpub-start-insert
 import App, { Search } from './App';
-# leanpub-end-insert
 
 ...
 
-# leanpub-start-insert
 describe('Search', () => {
 
   it('renders without crashing', () => {
@@ -471,23 +454,19 @@ describe('Search', () => {
   });
 
 });
-# leanpub-end-insert
-~~~~~~~~
+```
 
 Search 组件中有两个和 App 组件测试中类似的测试。第一个测试简单地渲染 Search 组件成 DOM，并验证这个渲染过程没有错误。如果这里有错误的话，即使测试块中没有任何断言（比如 expect， match， equal ），测试也会中断。第二个快照测试用来渲染组件的存储快照并且和之前的快照做比对。当快照改变了，测试会失败。
 
 接下来，你可以使用在 Search 组件中相同的测试方式，去测试 Button 组件。
 
-{title="src/App.test.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.test.js
 ...
-# leanpub-start-insert
 import App, { Search, Button } from './App';
-# leanpub-end-insert
 
 ...
 
-# leanpub-start-insert
 describe('Button', () => {
 
   it('renders without crashing', () => {
@@ -504,21 +483,17 @@ describe('Button', () => {
   });
 
 });
-# leanpub-end-insert
-~~~~~~~~
+```
 
 最后但也很重要的是，你可以给表格组件一些初始化的 props 来做渲染一个简单的列表。
 
-{title="src/App.test.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.test.js
 ...
-# leanpub-start-insert
 import App, { Search, Button, Table } from './App';
-# leanpub-end-insert
 
 ...
 
-# leanpub-start-insert
 describe('Table', () => {
 
   const props = {
@@ -542,8 +517,7 @@ describe('Table', () => {
   });
 
 });
-# leanpub-end-insert
-~~~~~~~~
+```
 
 快照测试常常就保持这样。只需要确保组件输出不会改变。一旦输出改变了，你必须决定是否接受这个改变。否则当输出和期望输出不符合时，你需要去修复组件。
 
@@ -554,46 +528,39 @@ describe('Table', () => {
 * 在后面章节中，当组件实现有改变时，保持你的快照最新。
 * 读一下官方文档 [React 中的 Jest](https://facebook.github.io/jest/docs/tutorial-react.html)。
 
-### 单元测试和 Enzyme
+## 单元测试和 Enzyme
 
 [Enzyme](https://github.com/airbnb/enzyme) 是一个由 Airbnb 维护的测试工具，可以用来断言、操作、遍历 React 组件。你可以用它来管理单元测试，在 React 测试中与快照测试互补。
 
 我们看看如何使用 Enzyme，第一步，因为 *create-react-app* 并不默认包含，你需要安装它。在 React 中还需要安装一个扩展库。
 
-{title="Command Line",lang="text"}
-
-~~~~~~~~
+```bash
+# Command Line
 npm install --save-dev enzyme react-addons-test-utils enzyme-adapter-react-16
-~~~~~~~~
+```
 
 第二步，你需要在测试启动配置中引入，并为 React 初始化这个适配器。
 
-{title="src/App.test.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.test.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-# leanpub-start-insert
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-# leanpub-end-insert
 import App, { Search, Button, Table } from './App';
 
-# leanpub-start-insert
 Enzyme.configure({ adapter: new Adapter() });
-# leanpub-end-insert
-~~~~~~~~
+```
 
 现在你可以在 Table 的 “describe” 块中书写你第一个单元测试了。你会使用 `shallow()` 方法渲染你的组件，并且断言 Table 有两个子项，因为你传入了两个列表项。断言仅仅检查这个元素两个带有类名叫 `table-row` 的元素。
 
-{title="src/App.test.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.test.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-# leanpub-start-insert
 import Enzyme, { shallow } from 'enzyme';
-# leanpub-end-insert
 import Adapter from 'enzyme-adapter-react-16';
 import App, { Search, Button, Table } from './App';
 
@@ -610,7 +577,6 @@ describe('Table', () => {
 
   ...
 
-# leanpub-start-insert
   it('shows two items in list', () => {
     const element = shallow(
       <Table { ...props } />
@@ -618,10 +584,9 @@ describe('Table', () => {
 
     expect(element.find('.table-row').length).toBe(2);
   });
-# leanpub-end-insert
 
 });
-~~~~~~~~
+```
 
 浅渲染组件不会渲染它的子组件。这样的话，你可以让测试只对一个组件负责。
 
@@ -650,24 +615,22 @@ Enzyme API 中总共有三种渲染机制。你已经知道了 `shallow()`，这
 
 第一步，你需要为 React 额外安装一个库。
 
-{title="Command Line",lang="text"}
-~~~~~~~~
+```bash
+# Command Line
 npm install prop-types
-~~~~~~~~
+```
 
 现在你可以导入 PropTypes。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
-# leanpub-start-insert
+```javascript
+// src/App.js
 import PropTypes from 'prop-types';
-# leanpub-end-insert
-~~~~~~~~
+```
 
 我们开始为组件添加一个 props 接口：
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 const Button = ({ onClick, className = '', children }) =>
   <button
     onClick={onClick}
@@ -677,14 +640,12 @@ const Button = ({ onClick, className = '', children }) =>
     {children}
   </button>
 
-# leanpub-start-insert
 Button.propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,
   children: PropTypes.node,
 };
-# leanpub-end-insert
-~~~~~~~~
+```
 
 也就是说，你接受函数上所有的参数签名，并为之添加一个 PropTypes。基础的基本类型和复杂对象 PropTypes 有：
 
@@ -704,36 +665,29 @@ Button.propTypes = {
 
 现在为 Button 定义的所有 PropTypes 都是可选的。参数可以为 null 或者 undefined。但是对于那么几个需要强制定义的 props，你可以标记这些 props 是必须传递给组件的。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 Button.propTypes = {
-# leanpub-start-insert
   onClick: PropTypes.func.isRequired,
-# leanpub-end-insert
   className: PropTypes.string,
-# leanpub-start-insert
   children: PropTypes.node.isRequired,
-# leanpub-end-insert
 };
-~~~~~~~~
+```
 
 `className` 不是必需的，因为它默认是空字符串。下一步你将为 Table 组件定义 PropTypes 接口。
 
-{title="src/App.js",lang=javascript}
-
-~~~~~~~~
-# leanpub-start-insert
+```javascript
+// src/App.js
 Table.propTypes = {
   list: PropTypes.array.isRequired,
   onDismiss: PropTypes.func.isRequired,
 };
-# leanpub-end-insert
-~~~~~~~~
+```
 
 你可以将数组 PropTypes 的元素定义的更加明确：
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 Table.propTypes = {
   list: PropTypes.arrayOf(
     PropTypes.shape({
@@ -746,33 +700,31 @@ Table.propTypes = {
   ).isRequired,
   onDismiss: PropTypes.func.isRequired,
 };
-~~~~~~~~
+```
 
 只有 `objectID` 是必须的，因为有部分代码依赖于它。其他的属性仅仅用来展示，就是说他们不是必须的。另外你也没办法保证 Hacker News API 总会给每一个对象都定义这些属性。
 
 这就是 PropTypes的基本内容。但另一方面的是，你也可以在组件中定义默认 props。我们还拿 Button 组件说吧，`className` 属性在组件签名中可以有一个 ES6 的默认参数值。
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
+```javascript
+// src/App.js
 const Button = ({
   onClick,
   className = '',
   children
 }) =>
   ...
-~~~~~~~~
+```
 
 你可以将它替换为 React 默认的 prop：
 
-{title="src/App.js",lang=javascript}
-~~~~~~~~
-# leanpub-start-insert
+```javascript
+// src/App.js
 const Button = ({
   onClick,
   className,
   children
 }) =>
-# leanpub-end-insert
   <button
     onClick={onClick}
     className={className}
@@ -781,12 +733,10 @@ const Button = ({
     {children}
   </button>
 
-# leanpub-start-insert
 Button.defaultProps = {
   className: '',
 };
-# leanpub-end-insert
-~~~~~~~~
+```
 
 和 ES6 的默认参数一样，默认 prop 确保当父组件没有指定属性的时候，这个数据会被设置一个默认值。PropTypes 类型检查会在默认 props 生效后执行校验。
 
@@ -798,7 +748,6 @@ Button.defaultProps = {
 * 在接下来的章节中，确保 PropTypes 接口一直被更新
 * 了解更多 [React PropTypes](https://facebook.github.io/react/docs/typechecking-with-proptypes.html)
 
-{pagebreak}
 
 你已经学习到了如何组织和测试你的代码。让我们来回顾一下这最后几章吧：
 
