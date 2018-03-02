@@ -1,3 +1,11 @@
+# 生成 epub 电子书
+
+```shell
+yarn add babel-cli babel-preset-env
+babel-node app.js
+make clean && make epub
+```
+
 # 《React 学习之道》The Road to learn React (简体中文版)
 
 > 通往 React 实战大师之旅：掌握 React 最简单，且最实用的教程。
