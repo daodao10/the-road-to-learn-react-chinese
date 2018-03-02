@@ -1,0 +1,18 @@
+---
+pagetitle: ebook
+title: 
+- type: main
+  text: The Road to learn React
+- type: subtitle
+  text: 简体中文版
+creator: 
+- role: author
+  text: Robin Wieruch
+- role: translator
+  text: ThoughtWorks JS Community
+date: 2018-02
+description: 
+cover-image: cover.png
+stylesheet: 
+- "./css/pandoc-dao.css"
+...

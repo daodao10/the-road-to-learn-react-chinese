@@ -1,0 +1,180 @@
+body {
+    font-size:1em;
+    line-height:1.5em;
+}
+
+.sidebar-nav-fixed {
+    position:fixed;
+    top:84px;
+    width:16.48%;
+}
+
+@media (max-width: 767px) {
+    .sidebar-nav-fixed {
+        width:auto;
+    }
+}
+
+@media (max-width: 979px) {
+    .sidebar-nav-fixed {
+        position:static;
+        width:auto;
+    }
+}
+
+@media (min-width: 980px) {
+    .title {
+        width:940px;
+    }
+    .container-fluid {
+        width:940px;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: black;
+    background: none;
+    font-weight: normal;
+    margin: 0;
+    overflow: hidden;
+    padding-top: .5em;
+    padding-bottom: .17em;
+}
+
+h1 {
+    font-size:2em;
+    border-bottom: 4px double #FFBF00;
+    text-align: center;
+}
+
+h2 {
+    font-size:1.5em;
+    border-bottom: 1px solid #FFBF00;
+	text-align: center;
+}
+
+h3 {
+    font-size:1.3em;
+}
+
+h1, h2 {
+    margin-bottom:.6em;
+    line-height:1.1em;
+}
+
+h3, h4, h5 {
+    margin-bottom:.3em;
+}
+
+#TOC > ul {
+    margin:0;
+}
+
+#TOC > ul > li {
+    font-size:1em;
+    line-height:1.5em;
+    list-style-type:none;
+}
+
+#TOC > ul > li > ul > li {
+    font-size:1em;
+    line-height:1.5em;
+}
+
+#TOC > ul > li > ul > li > ul {
+    display:none;
+}
+
+pre, code {
+    font-size: 0.85em;
+    font-family: Consolas, Inconsolata, Courier, monospace;
+}
+
+code {
+    margin: 0 0.15em;
+    padding: 0 0.3em;
+    white-space: pre-wrap;
+    border: 1px solid #EAEAEA;
+    background-color: #F8F8F8;
+    border-radius: 3px;
+    display: inline; /* added to fix Yahoo block display of inline code */
+}
+    
+pre {
+    font-size: 1em;
+    line-height: 1.2em;
+}
+    
+pre code {
+    white-space: pre;
+    overflow: auto; /* fixes issue #70: Firefox/Thunderbird: Code blocks with horizontal scroll would have bad background colour */
+    border-radius: 3px;
+    border: 1px solid #CCC;
+    padding: 0.5em 0.7em;
+    display: block !important; /* added to counteract the Yahoo-specific `code` rule; without this, code blocks in Blogger are broken */
+}
+
+blockquote > p {
+    font-size:1em;
+}
+blockquote {
+    border: 1px dashed #FFBF00;
+    color: #006600;
+    padding: 0.5em 0.8em;
+    background-color: #FAFAD2;
+    margin: auto 0;
+}
+.table {
+    width:auto;
+}
+
+sup, sub {
+    line-height: 1em;
+}
+
+header {
+    position:static;
+    width:100%;
+    overflow:visible;
+    display:block;
+
+
+    background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+    background-repeat: repeat-x;
+    border: 1px solid #d4d4d4;
+    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    color:#555555;
+    border-bottom:0;
+    font-size:1.2em;
+    padding: .5em;
+    margin-bottom:0;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+nav li:focus {
+    background-color:#EEEEEE;
+}
+
+nav a:hover {
+    text-decoration:none;
+}
+
+.title > a {
+    color:#555555;
+}
+
+.title a:hover {
+    text-decoration:none;
+}
+
+.container-fluid {
+    margin-left:auto;
+    margin-right:auto;
+    padding: 2em 0 4em 0;
+}
